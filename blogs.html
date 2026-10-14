@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Góc Cảm Hứng & Blog | Innercompass</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="static/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="static/js/supabase-config.js"></script>
+</head>
+<body>
+    <header class="site-header">
+        <a href="index.html" class="logo-area">
+            <div class="logo-text">
+                <h1><span class="brand-orange">INNER</span><span class="brand-navy">COMPASS</span></h1>
+                <p class="slogan-text">Đi là mê, ăn là phê.</p>
+            </div>
+            <img src="static/images/jmc_logo.png" alt="JMC Vietnam Logo" class="brand-logo" onerror="this.style.display='none'">
+        </a>
+        <nav>
+            <ul>
+                <li><a href="about.html">Giới thiệu</a></li>
+                <li><a href="journeys.html">Hành trình</a></li>
+                <li><a href="foods.html" class="nav-foods-link">Ẩm thực</a></li>
+                <li><a href="blogs.html" style="color:var(--mint-600); font-weight:700;">Blog</a></li>
+            </ul>
+        </nav>
+        <div class="auth-controls"></div>
+    </header>
+
+    <main class="page-shell">
+        <section class="hero-panel">
+            <h2>Blogs - Cẩm nang điểm đến nổi bật</h2>
+            <p>Bài viết tóm tắt nhanh để bạn hình dung chuyến đi, kèm link đặt tour trực tiếp.</p>
+        </section>
+
+        <section class="blog-grid" id="blogsContainer">
+            <p style="color: #666; font-style: italic;">Đang tải danh sách bài viết...</p>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <p class="copyright-line">&copy; 2026 Innercompass & NEMTA. Chạy trên GitHub Pages & Supabase Cloud.</p>
+    </footer>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        const blogs = await fetchBlogs();
+        const container = document.getElementById('blogsContainer');
+        if (!blogs || blogs.length === 0) {
+            container.innerHTML = '<p style="grid-column: 1/-1; text-align:center; color:#888;">Chưa có bài viết blog nào.</p>';
+            return;
+        }
+
+        container.innerHTML = blogs.map(blog => `
+            <article class="blog-card">
+                <img src="${blog.image_url || 'https://images.unsplash.com/photo-1527838832700-5059252407fa'}" alt="${blog.title}" class="blog-image">
+                <div class="blog-content">
+                    <p class="blog-destination">${blog.destination}</p>
+                    <h3>${blog.title}</h3>
+                    <p>${blog.summary}</p>
+                    <div style="margin-top: 10px; font-size: 0.9rem; color: #444; line-height: 1.5; background: #f9f9f9; padding: 10px; border-radius: 6px;">
+                        ${blog.content}
+                    </div>
+                    <div class="blog-actions" style="margin-top: 15px;">
+                        <a class="btn-primary link-btn" href="journeys.html" style="text-decoration:none; text-align:center;">Đặt Tour Điểm Đến Này</a>
+                    </div>
+                </div>
+            </article>
+        `).join('');
+    });
+    </script>
+</body>
+</html>

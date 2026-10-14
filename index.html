@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang chủ | Innercompass - Đi là mê, ăn là phê</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="static/style.css">
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="static/js/supabase-config.js"></script>
+</head>
+<body>
+    <header class="site-header">
+        <a href="index.html" class="logo-area">
+            <div class="logo-text">
+                <h1><span class="brand-orange">INNER</span><span class="brand-navy">COMPASS</span></h1>
+                <p class="slogan-text">Đi là mê, ăn là phê.</p>
+            </div>
+            <img src="static/images/jmc_logo.png" alt="JMC Vietnam Logo" class="brand-logo" onerror="this.style.display='none'">
+        </a>
+        <nav>
+            <ul>
+                <li><a href="about.html">Giới thiệu</a></li>
+                <li><a href="journeys.html">Hành trình</a></li>
+                <li><a href="foods.html" class="nav-foods-link">Ẩm thực</a></li>
+                <li><a href="blogs.html">Blog</a></li>
+            </ul>
+        </nav>
+        <div class="auth-controls">
+            <!-- Được quản lý tự động bởi static/js/supabase-config.js -->
+            <button type="button" class="auth-action google-btn" onclick="signInWithGoogle()" style="cursor:pointer; display:inline-flex; align-items:center; gap:6px; background:#fff; color:#333; border:1px solid #ddd; border-radius:20px; padding:6px 14px; font-weight:600; font-family:inherit;">
+                <svg width="16" height="16" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+                Đăng nhập Google
+            </button>
+        </div>
+    </header>
+
+    <main class="page-shell">
+        <section class="traveloka-hero">
+            <div class="hero-banner" style="background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80');">
+                <div class="hero-slogan">
+                    <h2>Hơn cả một chuyến đi, đó là trải nghiệm</h2>
+                    <p>Khám phá các tour du lịch độc đáo và ẩm thực địa phương cùng Innercompass</p>
+                </div>
+                <div class="hero-phone-wrap">
+                    <img src="static/images/phone_mockup.png" alt="Innercompass App" class="hero-phone-img" onerror="this.style.display='none'">
+                </div>
+            </div>
+            
+            <div class="booking-widget">
+                <div class="widget-tabs">
+                    <button class="tab-btn active" onclick="switchWidgetTab(this, 'tour')">✈️ Tour Du Lịch</button>
+                    <button class="tab-btn" onclick="switchWidgetTab(this, 'food')">🍲 Ẩm Thực</button>
+                    <button class="tab-btn" onclick="switchWidgetTab(this, 'blog')">✍️ Góc Cảm Hứng</button>
+                </div>
+                
+                <!-- Tour Panel -->
+                <div id="panel-tour" class="widget-panel active">
+                    <div class="search-form-layout">
+                        <div class="search-field">
+                            <label>📍 Điểm đến</label>
+                            <input type="text" placeholder="Hà Nội, Đà Nẵng, Nha Trang..." value="Việt Nam" readonly>
+                        </div>
+                        <div class="search-field">
+                            <label>📅 Ngày khởi hành</label>
+                            <input type="date" value="2026-10-20">
+                        </div>
+                        <div class="search-field">
+                            <label>👥 Số chỗ ngồi</label>
+                            <select id="heroTourSeats">
+                                <option value="1">1 người</option>
+                                <option value="2">2 người</option>
+                                <option value="3">3 người</option>
+                                <option value="4">4+ người</option>
+                            </select>
+                        </div>
+                        <a href="journeys.html" class="btn-primary search-submit-btn" style="text-decoration:none; text-align:center; display:inline-flex; align-items:center; justify-content:center;">Tìm kiếm Tour</a>
+                    </div>
+                </div>
+
+                <!-- Food Panel -->
+                <div id="panel-food" class="widget-panel">
+                    <div class="search-form-layout">
+                        <div class="search-field">
+                            <label>🍲 Loại món ăn</label>
+                            <select id="foodCategoryFilter" onchange="window.location.href='foods.html?category=' + this.value">
+                                <option value="Tat ca">Tất cả danh mục</option>
+                                <option value="Spring Rolls">Spring Rolls</option>
+                                <option value="Combo Meals">Combo Meals</option>
+                                <option value="Beverages">Đồ uống</option>
+                            </select>
+                        </div>
+                        <div class="search-field">
+                            <label>🛒 Số lượng</label>
+                            <input type="number" min="1" value="1">
+                        </div>
+                        <div class="search-field">
+                            <label class="inline-check-widget">
+                                <input type="checkbox" checked>
+                                Mua kèm tour (giảm thêm)
+                            </label>
+                        </div>
+                        <a href="foods.html" class="btn-primary search-submit-btn orange-btn" style="text-decoration:none; text-align:center; display:inline-flex; align-items:center; justify-content:center;">Khám phá Món Ăn</a>
+                    </div>
+                </div>
+
+                <!-- Blog Panel -->
+                <div id="panel-blog" class="widget-panel">
+                    <div class="search-form-layout">
+                        <div class="search-field full-width">
+                            <label>✍️ Đọc blog chia sẻ kinh nghiệm du lịch</label>
+                            <p style="font-size: 0.95rem; color: var(--text-700); margin-top: 5px;">
+                                Khám phá cẩm nang bỏ túi từ các blogger du lịch hàng đầu tại Việt Nam.
+                            </p>
+                        </div>
+                        <a href="blogs.html" class="btn-primary search-submit-btn" style="text-decoration: none; text-align: center; display: inline-flex; align-items: center; justify-content: center;">Đọc Blogs</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tour nổi bật -->
+        <section class="content-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h3 style="margin: 0;">Tour nổi bật sắp hết chỗ</h3>
+                <a href="journeys.html" style="color: var(--navy-800); font-weight: 600; text-decoration: none;">Xem tất cả &rarr;</a>
+            </div>
+            <div class="tour-grid" id="featuredToursContainer">
+                <p style="color: #666; font-style: italic;">Đang tải danh sách tour từ Supabase...</p>
+            </div>
+        </section>
+
+        <!-- Blog mới cập nhật -->
+        <section class="content-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h3 style="margin: 0;">Blog mới cập nhật</h3>
+                <a href="blogs.html" style="color: var(--navy-800); font-weight: 600; text-decoration: none;">Xem tất cả &rarr;</a>
+            </div>
+            <div class="blog-grid" id="featuredBlogsContainer">
+                <p style="color: #666; font-style: italic;">Đang tải blogs từ Supabase...</p>
+            </div>
+        </section>
+    </main>
+
+    <div class="floating-actions">
+        <a href="tel:0900000000" class="floating-btn hotline-btn">Hotline</a>
+        <a href="https://zalo.me/0900000000" class="floating-btn zalo-btn" target="_blank" rel="noreferrer">Zalo</a>
+    </div>
+
+    <footer class="site-footer">
+        <div class="lang-bar">
+            <div class="lang-bar-inner">
+                <span class="lang-item" data-lang="vi">Việt Nam (Tiếng Việt)</span>
+                <span class="lang-sep">|</span>
+                <span class="lang-item" data-lang="en">Global (English)</span>
+            </div>
+        </div>
+        <p class="copyright-line">&copy; 2026 Innercompass & NEMTA. Chạy trên GitHub Pages & Supabase Cloud.</p>
+    </footer>
+
+    <script>
+    function switchWidgetTab(element, type) {
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.widget-panel').forEach(panel => panel.classList.remove('active'));
+        
+        element.classList.add('active');
+        const panel = document.getElementById('panel-' + type);
+        if (panel) {
+            panel.classList.add('active');
+        }
+    }
+
+    // Load data from Supabase
+    document.addEventListener('DOMContentLoaded', async () => {
+        // Load Tours
+        const tours = await fetchTours();
+        const toursContainer = document.getElementById('featuredToursContainer');
+        if (tours && tours.length > 0) {
+            toursContainer.innerHTML = tours.map(tour => `
+                <article class="tour-card">
+                    <img src="${tour.image_url || 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80'}" alt="${tour.name}" class="tour-cover">
+                    <div class="tour-content">
+                        <h3>${tour.name}</h3>
+                        <p style="font-size:0.85rem; color:#666; margin:4px 0;">${tour.route_summary || ''}</p>
+                        <p><strong>Giá:</strong> ${Number(tour.price).toLocaleString('vi-VN')} VND</p>
+                        <p class="${tour.slots_left <= 3 ? 'status-low' : 'status-ok'}">
+                            Số chỗ còn lại: ${tour.slots_left}
+                        </p>
+                        <button type="button" class="btn-primary link-btn" onclick="bookTour(${tour.id}, 1)" style="border:none; cursor:pointer; width:100%;">
+                            Đặt tour ngay
+                        </button>
+                    </div>
+                </article>
+            `).join('');
+        } else {
+            toursContainer.innerHTML = `
+                <div style="grid-column: 1 / -1; padding: 20px; background: #fff8eb; border-radius: 8px; border: 1px dashed #f59e0b;">
+                    <p style="margin:0; color:#b45309; font-weight:500;">
+                        Chưa có tour nào trong Supabase. Bạn hãy chạy file <code>seed_supabase.sql</code> trong mục <strong>SQL Editor</strong> trên Supabase để nạp dữ liệu nhé!
+                    </p>
+                </div>
+            `;
+        }
+
+        // Load Blogs
+        const blogs = await fetchBlogs();
+        const blogsContainer = document.getElementById('featuredBlogsContainer');
+        if (blogs && blogs.length > 0) {
+            blogsContainer.innerHTML = blogs.slice(0, 3).map(blog => `
+                <article class="blog-card">
+                    <img src="${blog.image_url || 'https://images.unsplash.com/photo-1527838832700-5059252407fa'}" alt="${blog.title}" class="blog-image">
+                    <div class="blog-content">
+                        <p class="blog-destination">${blog.destination}</p>
+                        <h3>${blog.title}</h3>
+                        <p>${blog.summary}</p>
+                        <a class="btn-secondary link-btn" href="blogs.html" style="text-decoration:none; text-align:center;">Đọc tiếp</a>
+                    </div>
+                </article>
+            `).join('');
+        } else {
+            blogsContainer.innerHTML = `
+                <p style="color:#777; font-style:italic;">Chưa có bài viết blog nào.</p>
+            `;
+        }
+    });
+    </script>
+</body>
+</html>

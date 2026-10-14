@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hành trình Tour | Innercompass</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="static/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="static/js/supabase-config.js"></script>
+</head>
+<body>
+    <header class="site-header">
+        <a href="index.html" class="logo-area">
+            <div class="logo-text">
+                <h1><span class="brand-orange">INNER</span><span class="brand-navy">COMPASS</span></h1>
+                <p class="slogan-text">Đi là mê, ăn là phê.</p>
+            </div>
+            <img src="static/images/jmc_logo.png" alt="JMC Vietnam Logo" class="brand-logo" onerror="this.style.display='none'">
+        </a>
+        <nav>
+            <ul>
+                <li><a href="about.html">Giới thiệu</a></li>
+                <li><a href="journeys.html" style="color:var(--mint-600); font-weight:700;">Hành trình</a></li>
+                <li><a href="foods.html" class="nav-foods-link">Ẩm thực</a></li>
+                <li><a href="blogs.html">Blog</a></li>
+            </ul>
+        </nav>
+        <div class="auth-controls"></div>
+    </header>
+
+    <main class="page-shell">
+        <section class="hero-panel">
+            <h2>Journeys - Chọn chuyến đi đáng nhớ</h2>
+            <p>Danh sách tour khả dụng cập nhật theo thời gian thực từ Supabase Cloud.</p>
+        </section>
+
+        <section class="tour-grid" id="toursListContainer">
+            <p style="color: #666; font-style: italic;">Đang tải danh sách hành trình...</p>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <p class="copyright-line">&copy; 2026 Innercompass & NEMTA. Chạy trên GitHub Pages & Supabase Cloud.</p>
+    </footer>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        const tours = await fetchTours();
+        const container = document.getElementById('toursListContainer');
+        if (!tours || tours.length === 0) {
+            container.innerHTML = `<p style="grid-column: 1/-1; text-align:center; color:#888;">Chưa có tour nào. Vui lòng nạp dữ liệu bằng file seed_supabase.sql.</p>`;
+            return;
+        }
+
+        container.innerHTML = tours.map(tour => `
+            <article class="tour-card">
+                <img src="${tour.image_url || 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e'}" alt="${tour.name}" class="tour-cover">
+                <div class="tour-content">
+                    <h3>${tour.name}</h3>
+                    <p class="route-line">${tour.route_summary || ''}</p>
+                    <p><strong>Giá:</strong> ${Number(tour.price).toLocaleString('vi-VN')} VND</p>
+                    <p><strong>Thời lượng:</strong> ${tour.duration_days || 1} ngày</p>
+                    <p><strong>Thời gian còn lại:</strong> ${tour.hours_left || 72} giờ</p>
+                    <p><strong>Số chỗ đã đặt:</strong> ${tour.slots_booked || 0}</p>
+                    <p class="${tour.slots_left <= 3 ? 'status-low' : 'status-ok'}">
+                        Số chỗ còn lại: ${tour.slots_left}
+                    </p>
+                    <div style="display: flex; gap: 8px; margin-top: 10px;">
+                        <input type="number" id="seats-tour-${tour.id}" value="1" min="1" max="${tour.slots_left}" style="width: 70px; padding: 6px; border-radius: 6px; border: 1px solid #ccc; text-align: center;">
+                        <button type="button" class="btn-primary" style="flex:1; border:none; cursor:pointer;" onclick="handleBookTour(${tour.id})">
+                            Đặt chỗ ngay
+                        </button>
+                    </div>
+                </div>
+            </article>
+        `).join('');
+    });
+
+    function handleBookTour(tourId) {
+        const seatsInput = document.getElementById(`seats-tour-${tourId}`);
+        const seats = seatsInput ? seatsInput.value : 1;
+        bookTour(tourId, seats);
+    }
+    </script>
+</body>
+</html>

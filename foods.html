@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ẩm thực NEMTA | Innercompass</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="static/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="static/js/supabase-config.js"></script>
+</head>
+<body>
+    <header class="site-header">
+        <a href="index.html" class="logo-area">
+            <div class="logo-text">
+                <h1><span class="brand-orange">INNER</span><span class="brand-navy">COMPASS</span></h1>
+                <p class="slogan-text">Đi là mê, ăn là phê.</p>
+            </div>
+            <img src="static/images/jmc_logo.png" alt="JMC Vietnam Logo" class="brand-logo" onerror="this.style.display='none'">
+        </a>
+        <nav>
+            <ul>
+                <li><a href="about.html">Giới thiệu</a></li>
+                <li><a href="journeys.html">Hành trình</a></li>
+                <li><a href="foods.html" style="color:var(--mint-600); font-weight:700;" class="nav-foods-link">Ẩm thực (<span id="cartCount">0</span>)</a></li>
+                <li><a href="blogs.html">Blog</a></li>
+            </ul>
+        </nav>
+        <div class="auth-controls"></div>
+    </header>
+
+    <main class="page-shell nemta-food-theme">
+        <section class="hero-panel">
+            <div class="nemta-hero-head">
+                <div>
+                    <h2>NEMTA</h2>
+                    <p>Gourmet Vietnamese Spring Roll</p>
+                </div>
+                <div class="nemta-side-logo" aria-label="NEMTA logo">NEMTA</div>
+            </div>
+            <p>Khám phá thực đơn đặc sản NEMTA kết hợp hoàn hảo cùng các chuyến đi của bạn.</p>
+        </section>
+
+        <section class="content-card">
+            <div class="food-filter">
+                <label for="foodCategorySelect">Phân loại:</label>
+                <select id="foodCategorySelect" onchange="loadFoodsByCategory(this.value)">
+                    <option value="Tat ca">Tất cả món</option>
+                    <option value="Spring Rolls">Spring Rolls</option>
+                    <option value="Combo Meals">Combo Meals</option>
+                    <option value="Beverages">Đồ uống</option>
+                    <option value="Add-on">Món ăn kèm</option>
+                </select>
+                <button type="button" class="btn-primary compact" onclick="viewCart()">
+                    <i class="fa-solid fa-cart-shopping"></i> Xem giỏ hàng (<span id="cartBtnCount">0</span>)
+                </button>
+            </div>
+        </section>
+
+        <section class="food-list" id="foodsContainer">
+            <p style="color: #666; font-style: italic;">Đang tải danh sách món ăn từ Supabase...</p>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <p class="copyright-line">&copy; 2026 Innercompass & NEMTA. Chạy trên GitHub Pages & Supabase Cloud.</p>
+    </footer>
+
+    <script>
+    let cart = JSON.parse(localStorage.getItem('innercompass_cart') || '[]');
+
+    function updateCartBadge() {
+        const total = cart.reduce((sum, item) => sum + item.quantity, 0);
+        document.getElementById('cartCount').textContent = total;
+        document.getElementById('cartBtnCount').textContent = total;
+    }
+
+    function addToCart(foodId, name, price) {
+        const existing = cart.find(i => i.id === foodId);
+        if (existing) {
+            existing.quantity += 1;
+        } else {
+            cart.push({ id: foodId, name, price, quantity: 1 });
+        }
+        localStorage.setItem('innercompass_cart', JSON.stringify(cart));
+        updateCartBadge();
+        alert(`Đã thêm "${name}" vào giỏ hàng!`);
+    }
+
+    function viewCart() {
+        if (cart.length === 0) {
+            alert('Giỏ hàng của bạn đang trống!');
+            return;
+        }
+        let msg = 'GIỎ HÀNG CỦA BẠN:\n\n';
+        let totalMoney = 0;
+        cart.forEach((item, idx) => {
+            const sub = item.price * item.quantity;
+            totalMoney += sub;
+            msg += `${idx + 1}. ${item.name} x ${item.quantity} = ${sub.toLocaleString('vi-VN')} VND\n`;
+        });
+        msg += `\nTổng cộng: ${totalMoney.toLocaleString('vi-VN')} VND\n\nBạn có muốn làm trống giỏ hàng không?`;
+        if (confirm(msg)) {
+            cart = [];
+            localStorage.removeItem('innercompass_cart');
+            updateCartBadge();
+        }
+    }
+
+    async function loadFoodsByCategory(category) {
+        const container = document.getElementById('foodsContainer');
+        container.innerHTML = '<p style="color:#666;">Đang lọc món...</p>';
+        const foods = await fetchFoods(category);
+        if (!foods || foods.length === 0) {
+            container.innerHTML = '<p style="color:#888;">Không có món nào trong danh mục này.</p>';
+            return;
+        }
+
+        container.innerHTML = foods.map(item => `
+            <article class="food-item">
+                <img src="${item.image_url || 'https://images.unsplash.com/photo-1601050690597-df0568f70950'}" alt="${item.name}" class="food-image" loading="lazy">
+                <div class="food-body">
+                    <div class="food-top">
+                        <h3>${item.name}</h3>
+                        <button class="cart-icon" type="button" onclick="addToCart(${item.id}, '${item.name.replace(/'/g, "\\'")}', ${item.price})" style="background:none; border:none; cursor:pointer; font-size:1.2rem;">🛒</button>
+                    </div>
+                    <p class="food-category">${item.category}</p>
+                    <p>${item.description || ''}</p>
+                    <div class="discount-tags">
+                        <span>Combo: -${item.combo_percent || 0}%</span>
+                        <span>Kèm tour: -${item.tour_bundle_percent || 0}%</span>
+                    </div>
+                    <p class="food-price" style="margin-top: 8px;">
+                        <strong>${Number(item.price).toLocaleString('vi-VN')} VND</strong>
+                    </p>
+                </div>
+            </article>
+        `).join('');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        updateCartBadge();
+        const urlParams = new URLSearchParams(window.location.search);
+        const cat = urlParams.get('category') || 'Tat ca';
+        const select = document.getElementById('foodCategorySelect');
+        if (select) select.value = cat;
+        loadFoodsByCategory(cat);
+    });
+    </script>
+</body>
+</html>
