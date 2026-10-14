@@ -1,26 +1,26 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trang chủ | Innercompass - Đi là mê, ăn là phê</title>
+    <title>Innercompass | Khám phá Du lịch & Ẩm thực Phong cách Apple</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="static/style.css">
+    <link rel="stylesheet" href="static/style.css?v=apple3">
     <!-- Supabase JS Client -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="static/js/supabase-config.js?v=2"></script>
+    <script src="static/js/supabase-config.js?v=apple3"></script>
 </head>
 <body>
     <header class="site-header">
         <a href="index.html" class="logo-area">
+            <i class="fa-solid fa-compass brand-compass-icon"></i>
             <div class="logo-text">
-                <h1><span class="brand-orange">INNER</span><span class="brand-navy">COMPASS</span></h1>
+                <h1>INNER<span class="brand-purple">COMPASS</span></h1>
                 <p class="slogan-text">Đi là mê, ăn là phê.</p>
             </div>
-            <img src="static/images/jmc_logo.png" alt="JMC Vietnam Logo" class="brand-logo" onerror="this.style.display='none'">
         </a>
         <nav>
             <ul>
@@ -31,29 +31,16 @@
             </ul>
         </nav>
         <div class="auth-controls">
-            <div style="display:flex; align-items:center; gap:8px;">
-                <button type="button" class="auth-action google-btn" onclick="signInWithGoogle()" title="Đăng nhập Google" style="cursor:pointer; display:inline-flex; align-items:center; gap:5px; background:#fff; color:#333; border:1px solid #ddd; border-radius:20px; padding:5px 12px; font-weight:600; font-size:0.85rem; font-family:inherit; box-shadow:0 1px 2px rgba(0,0,0,0.06);">
-                    <svg width="15" height="15" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
-                    Google
-                </button>
-                <button type="button" class="auth-action facebook-btn" onclick="signInWithFacebook()" title="Đăng nhập Facebook" style="cursor:pointer; display:inline-flex; align-items:center; gap:5px; background:#1877F2; color:#fff; border:none; border-radius:20px; padding:5px 12px; font-weight:600; font-size:0.85rem; font-family:inherit; box-shadow:0 1px 2px rgba(24,119,242,0.25);">
-                    <i class="fa-brands fa-facebook" style="font-size:15px;"></i>
-                    Facebook
-                </button>
-                <button type="button" class="auth-action email-btn" onclick="openLoginModal()" title="Đăng nhập Gmail / Email" style="cursor:pointer; display:inline-flex; align-items:center; gap:5px; background:#f1f5f9; color:#334155; border:1px solid #cbd5e1; border-radius:20px; padding:5px 12px; font-weight:600; font-size:0.85rem; font-family:inherit;">
-                    <i class="fa-regular fa-envelope"></i>
-                    Gmail / Email
-                </button>
-            </div>
+            <!-- Tự động cập nhật bởi static/js/supabase-config.js -->
         </div>
     </header>
 
     <main class="page-shell">
         <section class="traveloka-hero">
-            <div class="hero-banner" style="background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80');">
+            <div class="hero-banner" style="background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1400&q=80');">
                 <div class="hero-slogan">
-                    <h2>Hơn cả một chuyến đi, đó là trải nghiệm</h2>
-                    <p>Khám phá các tour du lịch độc đáo và ẩm thực địa phương cùng Innercompass</p>
+                    <h2>Hơn cả một chuyến đi,<br><span class="highlight-purple">đó là trải nghiệm</span></h2>
+                    <p>Khám phá các tour du lịch độc đáo và ẩm thực địa phương cùng Innercompass.</p>
                 </div>
                 <div class="hero-phone-wrap">
                     <img src="static/images/phone_mockup.png" alt="Innercompass App" class="hero-phone-img" onerror="this.style.display='none'">
@@ -87,7 +74,7 @@
                                 <option value="4">4+ người</option>
                             </select>
                         </div>
-                        <a href="journeys.html" class="btn-primary search-submit-btn" style="text-decoration:none; text-align:center; display:inline-flex; align-items:center; justify-content:center;">Tìm kiếm Tour</a>
+                        <a href="journeys.html" class="search-submit-btn" style="text-decoration:none; text-align:center; display:inline-flex; align-items:center; justify-content:center;">Tìm kiếm Tour</a>
                     </div>
                 </div>
 
@@ -108,25 +95,25 @@
                             <input type="number" min="1" value="1">
                         </div>
                         <div class="search-field">
-                            <label class="inline-check-widget">
-                                <input type="checkbox" checked>
-                                Mua kèm tour (giảm thêm)
+                            <label class="badge-pill" style="cursor:pointer; width:fit-content; margin-top:20px;">
+                                <input type="checkbox" checked style="accent-color:var(--accent-purple);">
+                                Mua kèm tour (Ưu đãi)
                             </label>
                         </div>
-                        <a href="foods.html" class="btn-primary search-submit-btn orange-btn" style="text-decoration:none; text-align:center; display:inline-flex; align-items:center; justify-content:center;">Khám phá Món Ăn</a>
+                        <a href="foods.html" class="search-submit-btn" style="text-decoration:none; text-align:center; display:inline-flex; align-items:center; justify-content:center;">Khám phá Món Ăn</a>
                     </div>
                 </div>
 
                 <!-- Blog Panel -->
                 <div id="panel-blog" class="widget-panel">
                     <div class="search-form-layout">
-                        <div class="search-field full-width">
+                        <div class="search-field" style="grid-column: 1 / -2;">
                             <label>✍️ Đọc blog chia sẻ kinh nghiệm du lịch</label>
-                            <p style="font-size: 0.95rem; color: var(--text-700); margin-top: 5px;">
+                            <p style="font-size: 0.92rem; color: var(--text-muted); margin-top: 4px;">
                                 Khám phá cẩm nang bỏ túi từ các blogger du lịch hàng đầu tại Việt Nam.
                             </p>
                         </div>
-                        <a href="blogs.html" class="btn-primary search-submit-btn" style="text-decoration: none; text-align: center; display: inline-flex; align-items: center; justify-content: center;">Đọc Blogs</a>
+                        <a href="blogs.html" class="search-submit-btn" style="text-decoration: none; text-align: center; display: inline-flex; align-items: center; justify-content: center;">Đọc Blogs</a>
                     </div>
                 </div>
             </div>
@@ -134,41 +121,39 @@
 
         <!-- Tour nổi bật -->
         <section class="content-card">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                 <h3 style="margin: 0;">Tour nổi bật sắp hết chỗ</h3>
-                <a href="journeys.html" style="color: var(--navy-800); font-weight: 600; text-decoration: none;">Xem tất cả &rarr;</a>
+                <a href="journeys.html" class="badge-pill" style="text-decoration: none;">Xem tất cả &rarr;</a>
             </div>
             <div class="tour-grid" id="featuredToursContainer">
-                <p style="color: #666; font-style: italic;">Đang tải danh sách tour từ Supabase...</p>
+                <p style="color: var(--text-muted); font-style: italic;">Đang tải danh sách tour từ Supabase Cloud...</p>
             </div>
         </section>
 
         <!-- Blog mới cập nhật -->
         <section class="content-card">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                 <h3 style="margin: 0;">Blog mới cập nhật</h3>
-                <a href="blogs.html" style="color: var(--navy-800); font-weight: 600; text-decoration: none;">Xem tất cả &rarr;</a>
+                <a href="blogs.html" class="badge-pill" style="text-decoration: none;">Tất cả bài viết &rarr;</a>
             </div>
             <div class="blog-grid" id="featuredBlogsContainer">
-                <p style="color: #666; font-style: italic;">Đang tải blogs từ Supabase...</p>
+                <p style="color: var(--text-muted); font-style: italic;">Đang tải blogs...</p>
             </div>
         </section>
     </main>
 
     <div class="floating-actions">
-        <a href="tel:0900000000" class="floating-btn hotline-btn">Hotline</a>
-        <a href="https://zalo.me/0900000000" class="floating-btn zalo-btn" target="_blank" rel="noreferrer">Zalo</a>
+        <a href="tel:0900000000" class="floating-btn hotline-btn"><i class="fa-solid fa-phone"></i> Hotline</a>
+        <a href="https://zalo.me/0900000000" class="floating-btn zalo-btn" target="_blank" rel="noreferrer"><i class="fa-solid fa-comment-dots"></i> Zalo</a>
     </div>
 
     <footer class="site-footer">
         <div class="lang-bar">
-            <div class="lang-bar-inner">
-                <span class="lang-item" data-lang="vi">Việt Nam (Tiếng Việt)</span>
-                <span class="lang-sep">|</span>
-                <span class="lang-item" data-lang="en">Global (English)</span>
-            </div>
+            <span class="lang-item">Việt Nam (Tiếng Việt)</span>
+            <span class="lang-sep">|</span>
+            <span class="lang-item">Global (English)</span>
         </div>
-        <p class="copyright-line">&copy; 2026 Innercompass & NEMTA. Chạy trên GitHub Pages & Supabase Cloud.</p>
+        <p class="copyright-line">&copy; 2026 Innercompass & NEMTA. Thiết kế theo tiêu chuẩn Apple HIG & Liquid Glassmorphism.</p>
     </footer>
 
     <script>
@@ -191,15 +176,20 @@
         if (tours && tours.length > 0) {
             toursContainer.innerHTML = tours.map(tour => `
                 <article class="tour-card">
-                    <img src="${tour.image_url || 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80'}" alt="${tour.name}" class="tour-cover">
+                    <img src="${tour.image_url || 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80'}" alt="${tour.name}" class="tour-cover" loading="lazy">
                     <div class="tour-content">
                         <h3>${tour.name}</h3>
-                        <p style="font-size:0.85rem; color:#666; margin:4px 0;">${tour.route_summary || ''}</p>
-                        <p><strong>Giá:</strong> ${Number(tour.price).toLocaleString('vi-VN')} VND</p>
-                        <p class="${tour.slots_left <= 3 ? 'status-low' : 'status-ok'}">
-                            Số chỗ còn lại: ${tour.slots_left}
+                        <p class="route-line"><i class="fa-solid fa-location-dot" style="color:var(--accent-cyan); margin-right:4px;"></i>${tour.route_summary || 'Hành trình trải nghiệm đặc sắc'}</p>
+                        <p style="font-size:1.15rem; font-weight:700; color:var(--text-main); margin:4px 0;">
+                            ${Number(tour.price).toLocaleString('vi-VN')} VND
                         </p>
-                        <button type="button" class="btn-primary link-btn" onclick="bookTour(${tour.id}, 1)" style="border:none; cursor:pointer; width:100%;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                            <span class="${tour.slots_left <= 3 ? 'status-low' : 'status-ok'}">
+                                <i class="fa-solid fa-circle" style="font-size:6px;"></i> Còn ${tour.slots_left} chỗ
+                            </span>
+                            <span style="font-size:0.8rem; color:var(--text-muted);"><i class="fa-regular fa-clock" style="margin-right:4px;"></i>${tour.duration_days || 1} ngày</span>
+                        </div>
+                        <button type="button" class="btn-primary" onclick="bookTour(${tour.id}, 1)" style="width:100%;">
                             Đặt tour ngay
                         </button>
                     </div>
@@ -207,9 +197,9 @@
             `).join('');
         } else {
             toursContainer.innerHTML = `
-                <div style="grid-column: 1 / -1; padding: 20px; background: #fff8eb; border-radius: 8px; border: 1px dashed #f59e0b;">
-                    <p style="margin:0; color:#b45309; font-weight:500;">
-                        Chưa có tour nào trong Supabase. Bạn hãy chạy file <code>seed_supabase.sql</code> trong mục <strong>SQL Editor</strong> trên Supabase để nạp dữ liệu nhé!
+                <div style="grid-column: 1 / -1; padding: 24px; background: rgba(191,90,242,0.08); border-radius: var(--radius-lg); border: 1px dashed var(--accent-purple);">
+                    <p style="margin:0; color:var(--accent-purple); font-weight:600;">
+                        Chưa có tour nào trong Supabase. Hãy chạy file <code>seed_supabase.sql</code> trong <strong>SQL Editor</strong> trên Supabase để nạp dữ liệu!
                     </p>
                 </div>
             `;
@@ -221,18 +211,18 @@
         if (blogs && blogs.length > 0) {
             blogsContainer.innerHTML = blogs.slice(0, 3).map(blog => `
                 <article class="blog-card">
-                    <img src="${blog.image_url || 'https://images.unsplash.com/photo-1527838832700-5059252407fa'}" alt="${blog.title}" class="blog-image">
+                    <img src="${blog.image_url || 'https://images.unsplash.com/photo-1527838832700-5059252407fa'}" alt="${blog.title}" class="blog-image" loading="lazy">
                     <div class="blog-content">
-                        <p class="blog-destination">${blog.destination}</p>
+                        <span class="blog-destination"><i class="fa-solid fa-compass" style="margin-right:4px;"></i>${blog.destination}</span>
                         <h3>${blog.title}</h3>
                         <p>${blog.summary}</p>
-                        <a class="btn-secondary link-btn" href="blogs.html" style="text-decoration:none; text-align:center;">Đọc tiếp</a>
+                        <a class="btn-secondary" href="blogs.html" style="margin-top:auto; text-decoration:none; text-align:center;">Đọc tiếp &rarr;</a>
                     </div>
                 </article>
             `).join('');
         } else {
             blogsContainer.innerHTML = `
-                <p style="color:#777; font-style:italic;">Chưa có bài viết blog nào.</p>
+                <p style="color:var(--text-muted); font-style:italic;">Chưa có bài viết blog nào.</p>
             `;
         }
     });

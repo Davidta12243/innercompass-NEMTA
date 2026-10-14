@@ -1,5 +1,6 @@
 /**
  * Supabase Client Configuration & Shared Helpers for GitHub Pages
+ * Apple Liquid Glass & HIG Aesthetic System
  */
 const SUPABASE_URL = 'https://ptlxplvklocbincxgbpx.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_HY_HINYy8gRW957JlGoAAQ_EdsSLe0g';
@@ -10,6 +11,33 @@ if (!window.supabase) {
 
 const supabaseClient = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
 window.supabaseClient = supabaseClient;
+
+// --- APPLE THEME MANAGER (Dark Mode First / Light Mode) ---
+function initAppleTheme() {
+    const saved = localStorage.getItem('apple_theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', saved);
+    updateThemeToggleIcons();
+}
+
+function toggleAppleTheme() {
+    const current = document.documentElement.getAttribute('data-theme') || 'dark';
+    const next = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('apple_theme', next);
+    updateThemeToggleIcons();
+}
+
+function updateThemeToggleIcons() {
+    const current = document.documentElement.getAttribute('data-theme') || 'dark';
+    document.querySelectorAll('.theme-toggle-btn').forEach(btn => {
+        btn.innerHTML = current === 'dark' ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
+        btn.title = current === 'dark' ? 'Chuyển sang Giao diện Sáng (Light Mode)' : 'Chuyển sang Giao diện Tối (Dark Mode)';
+    });
+}
+
+// Run immediately to prevent theme flash
+initAppleTheme();
+document.addEventListener('DOMContentLoaded', initAppleTheme);
 
 // --- AUTHENTICATION HELPERS ---
 
@@ -48,7 +76,7 @@ async function signInWithFacebook() {
             }
         });
         if (error) {
-            alert('Lỗi đăng nhập Facebook: ' + error.message + '\n\nLưu ý: Bạn cần kích hoạt Provider "Facebook" trong Supabase Authentication và điền App ID/Secret từ Meta for Developers.');
+            alert('Lỗi đăng nhập Facebook: ' + error.message);
         }
     } catch (err) {
         console.error('Facebook Sign In Error:', err);
@@ -101,54 +129,70 @@ async function signOut() {
 }
 
 /**
- * Hiển thị Hộp thoại Đăng nhập Đa phương thức (Google, Facebook, Gmail)
+ * Hiển thị Hộp thoại Đăng nhập Apple Liquid Glass
  */
 function openLoginModal() {
     let modal = document.getElementById('unifiedAuthModal');
     if (!modal) {
         modal = document.createElement('div');
         modal.id = 'unifiedAuthModal';
-        modal.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.55); display:flex; align-items:center; justify-content:center; z-index:99999; backdrop-filter:blur(4px);';
+        modal.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.65); display:flex; align-items:center; justify-content:center; z-index:99999; backdrop-filter:blur(24px) saturate(180%); -webkit-backdrop-filter:blur(24px) saturate(180%);';
         modal.innerHTML = `
-            <div style="background:#fff; border-radius:16px; width:90%; max-width:400px; padding:28px 24px; box-shadow:0 20px 40px rgba(0,0,0,0.25); font-family:inherit; position:relative; animation:fadeIn 0.2s ease;">
-                <button type="button" onclick="closeLoginModal()" style="position:absolute; top:14px; right:16px; background:none; border:none; font-size:24px; cursor:pointer; color:#94a3b8; line-height:1;">&times;</button>
-                <div style="text-align:center; margin-bottom:20px;">
-                    <h3 style="margin:0 0 6px 0; font-size:1.35rem; color:#0f172a; font-weight:700;">Đăng nhập Innercompass</h3>
-                    <p style="font-size:0.88rem; color:#64748b; margin:0;">Chọn phương thức đăng nhập để đặt tour và theo dõi đơn hàng</p>
+            <div class="liquid-glass" style="width:90%; max-width:420px; padding:32px 28px; position:relative; animation:appleModalPop 0.28s cubic-bezier(0.16, 1, 0.3, 1);">
+                <button type="button" onclick="closeLoginModal()" style="position:absolute; top:18px; right:18px; width:32px; height:32px; border-radius:50%; background:var(--bg-tertiary); border:1px solid var(--border-subtle); color:var(--text-muted); font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.2s;">&times;</button>
+                <div style="text-align:center; margin-bottom:24px;">
+                    <div style="font-size:2.2rem; color:var(--accent-purple); filter:drop-shadow(0 0 16px var(--accent-purple-glow)); margin-bottom:8px;">
+                        <i class="fa-solid fa-compass"></i>
+                    </div>
+                    <h3 style="margin:0 0 6px 0; font-size:1.4rem; color:var(--text-main); font-weight:800; letter-spacing:-0.02em;">Đăng nhập Innercompass</h3>
+                    <p style="font-size:0.88rem; color:var(--text-muted); margin:0;">Trải nghiệm các tour du lịch & ẩm thực cao cấp</p>
                 </div>
                 
-                <div style="display:flex; flex-direction:column; gap:10px;">
+                <div style="display:flex; flex-direction:column; gap:12px;">
                     <!-- Google Button -->
-                    <button type="button" onclick="signInWithGoogle()" style="display:flex; align-items:center; justify-content:center; gap:10px; width:100%; padding:11px 16px; background:#fff; border:1px solid #cbd5e1; border-radius:10px; font-weight:600; font-size:0.92rem; color:#1e293b; cursor:pointer; box-shadow:0 1px 2px rgba(0,0,0,0.05); transition:all 0.2s;">
+                    <button type="button" onclick="signInWithGoogle()" style="display:flex; align-items:center; justify-content:center; gap:10px; width:100%; padding:12px 18px; background:rgba(255,255,255,0.95); border:none; border-radius:var(--radius-md); font-weight:600; font-size:0.95rem; color:#1a1a1a; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,0.15); transition:transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);">
                         <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
-                        Đăng nhập bằng Google
+                        Tiếp tục với Google
                     </button>
                     
                     <!-- Facebook Button -->
-                    <button type="button" onclick="signInWithFacebook()" style="display:flex; align-items:center; justify-content:center; gap:10px; width:100%; padding:11px 16px; background:#1877F2; color:#fff; border:none; border-radius:10px; font-weight:600; font-size:0.92rem; cursor:pointer; box-shadow:0 1px 2px rgba(24,119,242,0.3); transition:all 0.2s;">
+                    <button type="button" onclick="signInWithFacebook()" style="display:flex; align-items:center; justify-content:center; gap:10px; width:100%; padding:12px 18px; background:#1877F2; color:#fff; border:none; border-radius:var(--radius-md); font-weight:600; font-size:0.95rem; cursor:pointer; box-shadow:0 4px 12px rgba(24,119,242,0.35); transition:transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);">
                         <i class="fa-brands fa-facebook" style="font-size:18px;"></i>
-                        Đăng nhập bằng Facebook
+                        Tiếp tục với Facebook
                     </button>
                 </div>
 
-                <div style="display:flex; align-items:center; margin:20px 0; color:#94a3b8; font-size:0.82rem;">
-                    <div style="flex:1; height:1px; background:#e2e8f0;"></div>
-                    <span style="padding:0 12px; text-transform:uppercase; letter-spacing:0.5px;">hoặc dùng Gmail / Email</span>
-                    <div style="flex:1; height:1px; background:#e2e8f0;"></div>
+                <div style="display:flex; align-items:center; margin:22px 0; color:var(--text-subtle); font-size:0.8rem;">
+                    <div style="flex:1; height:1px; background:var(--separator);"></div>
+                    <span style="padding:0 12px; text-transform:uppercase; letter-spacing:0.06em;">hoặc dùng Gmail / Email</span>
+                    <div style="flex:1; height:1px; background:var(--separator);"></div>
                 </div>
 
-                <form onsubmit="handleEmailOtpSubmit(event)" style="display:flex; flex-direction:column; gap:10px;">
+                <form onsubmit="handleEmailOtpSubmit(event)" style="display:flex; flex-direction:column; gap:12px;">
                     <div style="position:relative;">
-                        <input type="email" id="authEmailInput" placeholder="Nhập địa chỉ email của bạn..." required style="width:100%; padding:11px 12px 11px 36px; border:1px solid #cbd5e1; border-radius:10px; font-size:0.92rem; box-sizing:border-box; outline:none;">
-                        <i class="fa-regular fa-envelope" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); color:#94a3b8;"></i>
+                        <input type="email" id="authEmailInput" placeholder="nhap-email@gmail.com" required style="width:100%; padding:12px 14px 12px 40px; background:var(--bg-secondary); border:1px solid var(--border-subtle); border-radius:var(--radius-md); color:var(--text-main); font-size:0.95rem; box-sizing:border-box; outline:none; font-family:inherit;">
+                        <i class="fa-regular fa-envelope" style="position:absolute; left:14px; top:50%; transform:translateY(-50%); color:var(--text-muted);"></i>
                     </div>
-                    <button type="submit" style="width:100%; padding:11px; background:#0f766e; color:#fff; border:none; border-radius:10px; font-weight:600; font-size:0.92rem; cursor:pointer; transition:background 0.2s;">
-                        <i class="fa-solid fa-paper-plane" style="margin-right:6px;"></i> Gửi mã / liên kết đăng nhập
+                    <button type="submit" class="btn-primary" style="width:100%; padding:13px; font-weight:700;">
+                        <i class="fa-solid fa-paper-plane" style="margin-right:8px;"></i> Gửi liên kết đăng nhập OTP
                     </button>
                 </form>
             </div>
         `;
         document.body.appendChild(modal);
+
+        // Add keyframe for modal
+        if (!document.getElementById('appleModalKeyframes')) {
+            const style = document.createElement('style');
+            style.id = 'appleModalKeyframes';
+            style.innerHTML = `
+                @keyframes appleModalPop {
+                    0% { transform: scale(0.92) translateY(12px); opacity: 0; }
+                    100% { transform: scale(1) translateY(0); opacity: 1; }
+                }
+            `;
+            document.head.appendChild(style);
+        }
     }
     modal.style.display = 'flex';
 }
@@ -165,41 +209,49 @@ function handleEmailOtpSubmit(e) {
 }
 
 /**
- * Cập nhật giao diện thanh điều hướng theo trạng thái đăng nhập
+ * Cập nhật giao diện thanh điều hướng theo chuẩn Apple
  */
 function updateAuthNavbar(user) {
     const authControls = document.querySelector('.auth-controls');
     if (!authControls) return;
 
+    const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+    const themeIcon = currentTheme === 'dark' ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
+    const themeBtnHtml = `<button type="button" class="theme-toggle-btn" onclick="toggleAppleTheme()" title="Đổi giao diện">${themeIcon}</button>`;
+
     if (user) {
         const name = user.user_metadata?.full_name || user.email?.split('@')[0] || 'Tài khoản';
         const avatar = user.user_metadata?.avatar_url;
         const avatarHtml = avatar 
-            ? `<img src="${avatar}" alt="${name}" style="width:24px;height:24px;border-radius:50%;margin-right:6px;vertical-align:middle;object-fit:cover;">`
-            : `<i class="fa-solid fa-user" style="margin-right:6px;"></i>`;
+            ? `<img src="${avatar}" alt="${name}" style="width:26px;height:26px;border-radius:50%;margin-right:8px;vertical-align:middle;object-fit:cover;border:1px solid var(--border-highlight);">`
+            : `<i class="fa-solid fa-user" style="margin-right:8px; color:var(--accent-purple);"></i>`;
 
         authControls.innerHTML = `
-            <a class="account-link" href="javascript:void(0)" onclick="openMyOrdersModal()">Đơn hàng của tôi</a>
+            ${themeBtnHtml}
+            <a class="account-link" href="javascript:void(0)" onclick="openMyOrdersModal()">
+                <i class="fa-solid fa-receipt" style="margin-right:6px;"></i> Đơn của tôi
+            </a>
             <span class="auth-user" style="cursor:default; display:inline-flex; align-items:center;">
                 ${avatarHtml}
                 <strong>${name}</strong>
             </span>
-            <button type="button" class="auth-action" onclick="signOut()" style="cursor:pointer; background:none; border:1px solid #ccc; border-radius:4px; padding:4px 10px; font-family:inherit;">
-                <i class="fa-solid fa-arrow-right-from-bracket"></i> Đăng xuất
+            <button type="button" class="auth-action" onclick="signOut()" style="cursor:pointer;" title="Đăng xuất">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
             </button>
         `;
     } else {
         authControls.innerHTML = `
+            ${themeBtnHtml}
             <div style="display:flex; align-items:center; gap:8px;">
-                <button type="button" class="auth-action google-btn" onclick="signInWithGoogle()" title="Đăng nhập Google" style="cursor:pointer; display:inline-flex; align-items:center; gap:5px; background:#fff; color:#333; border:1px solid #ddd; border-radius:20px; padding:5px 12px; font-weight:600; font-size:0.85rem; font-family:inherit; box-shadow:0 1px 2px rgba(0,0,0,0.06);">
+                <button type="button" class="auth-action google-btn" onclick="signInWithGoogle()" title="Đăng nhập Google">
                     <svg width="15" height="15" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
                     Google
                 </button>
-                <button type="button" class="auth-action facebook-btn" onclick="signInWithFacebook()" title="Đăng nhập Facebook" style="cursor:pointer; display:inline-flex; align-items:center; gap:5px; background:#1877F2; color:#fff; border:none; border-radius:20px; padding:5px 12px; font-weight:600; font-size:0.85rem; font-family:inherit; box-shadow:0 1px 2px rgba(24,119,242,0.25);">
-                    <i class="fa-brands fa-facebook" style="font-size:15px;"></i>
+                <button type="button" class="auth-action facebook-btn" onclick="signInWithFacebook()" title="Đăng nhập Facebook">
+                    <i class="fa-brands fa-facebook"></i>
                     Facebook
                 </button>
-                <button type="button" class="auth-action email-btn" onclick="openLoginModal()" title="Đăng nhập Email / Gmail" style="cursor:pointer; display:inline-flex; align-items:center; gap:5px; background:#f1f5f9; color:#334155; border:1px solid #cbd5e1; border-radius:20px; padding:5px 12px; font-weight:600; font-size:0.85rem; font-family:inherit;">
+                <button type="button" class="auth-action email-btn" onclick="openLoginModal()" title="Đăng nhập Gmail / Email">
                     <i class="fa-regular fa-envelope"></i>
                     Email
                 </button>
@@ -306,7 +358,7 @@ async function bookTour(tourId, seats = 1) {
 }
 
 /**
- * Xem danh sách đơn đã đặt
+ * Xem danh sách đơn đã đặt (Apple Sheet Modal)
  */
 async function openMyOrdersModal() {
     if (!supabaseClient) return;
